@@ -36,16 +36,19 @@ func (h *Handler) handleCredentials(w http.ResponseWriter, r *http.Request) {
 	profile, ok := mux.Vars(r)["profile"]
 	if !ok {
 		writeError(http.StatusBadRequest, fmt.Errorf("no profile provided"), w)
+		return
 	}
 
 	credentials, err := h.credentialsService.Credentials(&profile)
 	if err != nil {
 		writeError(http.StatusInternalServerError, err, w)
+		return
 	}
 
 	data, err := json.Marshal(credentials)
 	if err != nil {
 		writeError(http.StatusInternalServerError, err, w)
+		return
 	}
 
 	writeResponse(http.StatusOK, data, w)
@@ -55,6 +58,7 @@ func writeError(code int, err error, w http.ResponseWriter) {
 	b, e := json.Marshal(err)
 	if e != nil {
 		writeResponse(http.StatusInternalServerError, []byte("{\"Message\":\"failed to marshal error\"}"), w)
+		return
 	}
 	writeResponse(code, b, w)
 }

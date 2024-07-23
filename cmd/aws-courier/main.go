@@ -6,7 +6,7 @@ import (
 
 	"github.com/gemcdaniel/aws-courier/aws"
 	"github.com/gemcdaniel/aws-courier/http"
-	"github.com/jawher/mow.cli"
+	cli "github.com/jawher/mow.cli"
 )
 
 func main() {
